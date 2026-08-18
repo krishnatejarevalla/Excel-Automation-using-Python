@@ -21,3 +21,9 @@ wb.save('Marks.xlsx')
 
 #Accessing the sheet names
 print(wb.sheetnames) #Grades
+
+#Creating new sheets in the wb
+wb.create_sheet('Averages')
+wb.create_sheet('Remarks')
+wb.create_sheet('Student Info')
+print(wb.sheetnames)
