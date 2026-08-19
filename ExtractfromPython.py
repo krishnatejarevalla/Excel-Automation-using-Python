@@ -36,3 +36,19 @@ data = {
 	}
 }
 
+#Placing the above data into an Excel Sheet
+wb = Workbook()
+ws = wb.active
+ws.title = "Scores"
+
+#To Name the column headings, I'm using list[] and ws.append()
+headings = ['Name'] + list(data["Joe"].keys())
+ws.append(headings) #This Gives column headers |Name|math|science|english|gym| in excel
+
+
+#Now, we've to get Student names and their scores, so I'm using for loop
+for person in data:
+    grades = list(data[person].values()) #make sure to convert dict to list values
+    ws.append([person]+grades)
+    
+wb.save("MarkSheet.xlsx")
