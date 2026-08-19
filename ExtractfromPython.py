@@ -50,5 +50,14 @@ ws.append(headings) #This Gives column headers |Name|math|science|english|gym| i
 for person in data:
     grades = list(data[person].values()) #make sure to convert dict to list values
     ws.append([person]+grades)
-    
+
+
+#Calculating Average for each Subject
+for col in range(2, len(data['Joe'])+2):
+    char = get_column_letter(col)
+    ws[char+"7"] = f"=SUM({char+"2"}:{char+"6"})/{len(data)}"
+
+#For bolding the headers we have to go cell by cell so i'm using for loop
+for col in range(1,6):
+    ws[get_column_letter(col)+"1"].font = Font(bold=True, color="FF0000")
 wb.save("MarkSheet.xlsx")
