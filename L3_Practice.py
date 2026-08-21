@@ -1,5 +1,6 @@
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_interval
+from openpyxl.utils import column_index_from_string, get_column_letter
 wb = load_workbook("MarkList.xlsx")
 ws = wb.active
 
@@ -18,4 +19,16 @@ for column in columns:
     # Excel
     # PowerBI
 
-
+#Printing column names dynamically
+starting_column = input("Enter starting column letter: ")
+ending_column = get_column_letter(ws.max_column)
+column_range = get_column_interval(starting_column, ending_column)
+for column in column_range:
+    print(ws[column+"1"].value)
+    #Output:
+    # Enter starting column letter: B
+    # Name
+    # Python
+    # SQL
+    # Excel
+    # PowerBI
