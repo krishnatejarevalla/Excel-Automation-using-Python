@@ -15,3 +15,17 @@ for col in range(1, ws.max_column+1):
     # SQL= 4
     # Excel= 5
     # PowerBI= 6
+
+#Finding column number of a specific column name
+search_column = input("Enter the Column name: ")
+found = False
+for col in range(1, ws.max_column+1):
+    if ws.cell(row=1, column= col).value == search_column:
+        column_letter = ws.cell(row=1, column = col).column_letter
+        print(f"{search_column} is in Column", column_index_from_string(column_letter))
+        found = True
+if found == False:
+    print("No matches")
+
+
+
