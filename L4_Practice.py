@@ -1,5 +1,5 @@
 from openpyxl import load_workbook
-from openpyxl.utils import range_boundaries, column_index_from_string
+from openpyxl.utils import range_boundaries, column_index_from_string, get_column_letter
 wb = load_workbook("MarkList.xlsx")
 ws = wb.active
 
@@ -16,10 +16,10 @@ print(f"Starting row : {min_row}",
         #Starting row : 1 Starting col : 1 ending row :11 ending col : 6,
 
 #printing cell values from given range
-for row in range(min_row, max_row+1):
-     for col in range(min_col, max_col+1):
-        print(ws.cell(row = row, column= col).value, end = " ")
-    print()
+# for row in range(min_row, max_row+1):
+#      for col in range(min_col, max_col+1):
+#         print(ws.cell(row = row, column= col).value, end = " ")
+#      print()
                 # Output:
                 # Enter the range of cells: A1:F11
                 # Starting row : 1 Starting col : 1 ending row :11 ending col : 6,Student_ID Name Python SQL Excel PowerBI 
@@ -36,23 +36,38 @@ for row in range(min_row, max_row+1):
 
 
 #Printing values from specific column
-Column_letter = input("Enter column letter: ")
-col_num = column_index_from_string(Column_letter)
-for row in range(min_row, max_row+1):
-    print(ws.cell(row=row, column= col_num).value)
+# Column_letter = input("Enter column letter: ")
+# col_num = column_index_from_string(Column_letter)
+# for row in range(min_row, max_row+1):
+#     print(ws.cell(row=row, column= col_num).value)
 
 #Searching for a value and it's cell coordinates
-Keyword = input("Enter the value to search : ")
-found = False
-for row in range(min_row, max_row+1):
-    for col in range(min_col, max_col+1):
-        if ws.cell(row=row, column = col).value == Keyword:
-            print(f"{Keyword} is found at" ,ws.cell(row, col).coordinate)
-            found =True
-if found is not True:
-    print("Not Found")
+# Keyword = input("Enter the value to search : ")
+# found = False
+# for row in range(min_row, max_row+1):
+#     for col in range(min_col, max_col+1):
+#         if str(ws.cell(row=row, column = col).value) == Keyword:
+#             print(f"{Keyword} is found at" ,ws.cell(row, col).coordinate)
+#             found =True
+# if found is not True:
+#     print("Not Found")
             #output:
             # Enter the range of cells: A1:F11
             # Starting row : 1 Starting col : 1 ending row :11 ending col : 6,Enter the value to search : Priya
             # Priya is found at B3
+
+#Finding complete cell information
+Item = input("Enter the item to search : ")
+found = False
+for row in range(min_row, max_row+1):
+    for col in range(min_col, max_col+1):
+        if str(ws.cell(row=row, column = col).value) == Item:
+            print("Value: ",Item)
+            print("Cell:",ws.cell(row=row, column =col).coordinate)
+            print("Row:",ws.cell(row, col).row)
+            print("Col:",ws.cell(row, col).column)
+            print("Column_letter:",get_column_letter(ws.cell(row, col).column))
+            found =True
+if found is not True:
+    print("Not Found")
 
