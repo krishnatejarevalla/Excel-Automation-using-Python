@@ -18,3 +18,11 @@ for row in range(min_row, max_row+1):
 print("Total matches:",count)
 if not found:
     print("Not found")
+
+    #Output:
+    # Enter the cell range you want: A1:F11
+    # Enter the item you want to search: 90    
+    # 90 is found at E2
+    # 90 is found at F9
+    # 90 is found at D11
+    # Total matches: 3
