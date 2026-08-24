@@ -16,10 +16,10 @@ print(f"Starting row : {min_row}",
         #Starting row : 1 Starting col : 1 ending row :11 ending col : 6,
 
 #printing cell values from given range
-# for row in range(min_row, max_row+1):
-#      for col in range(min_col, max_col+1):
-#         print(ws.cell(row = row, column= col).value, end = " ")
-#      print()
+for row in range(min_row, max_row+1):
+     for col in range(min_col, max_col+1):
+        print(ws.cell(row = row, column= col).value, end = " ")
+     print()
                 # Output:
                 # Enter the range of cells: A1:F11
                 # Starting row : 1 Starting col : 1 ending row :11 ending col : 6,Student_ID Name Python SQL Excel PowerBI 
@@ -36,21 +36,21 @@ print(f"Starting row : {min_row}",
 
 
 #Printing values from specific column
-# Column_letter = input("Enter column letter: ")
-# col_num = column_index_from_string(Column_letter)
-# for row in range(min_row, max_row+1):
-#     print(ws.cell(row=row, column= col_num).value)
+Column_letter = input("Enter column letter: ")
+col_num = column_index_from_string(Column_letter)
+for row in range(min_row, max_row+1):
+    print(ws.cell(row=row, column= col_num).value)
 
 #Searching for a value and it's cell coordinates
-# Keyword = input("Enter the value to search : ")
-# found = False
-# for row in range(min_row, max_row+1):
-#     for col in range(min_col, max_col+1):
-#         if str(ws.cell(row=row, column = col).value) == Keyword:
-#             print(f"{Keyword} is found at" ,ws.cell(row, col).coordinate)
-#             found =True
-# if found is not True:
-#     print("Not Found")
+Keyword = input("Enter the value to search : ")
+found = False
+for row in range(min_row, max_row+1):
+    for col in range(min_col, max_col+1):
+        if str(ws.cell(row=row, column = col).value) == Keyword:
+            print(f"{Keyword} is found at" ,ws.cell(row, col).coordinate)
+            found =True
+if found is not True:
+    print("Not Found")
             #output:
             # Enter the range of cells: A1:F11
             # Starting row : 1 Starting col : 1 ending row :11 ending col : 6,Enter the value to search : Priya
@@ -70,4 +70,12 @@ for row in range(min_row, max_row+1):
             found =True
 if found is not True:
     print("Not Found")
+            #Output:
+            # Enter the range of cells: A1:F11
+            # Starting row : 1 Starting col : 1 ending row :11 ending col : 6,Enter the item to search : Priya
+            # Value:  Priya
+            # Cell: B3
+            # Row: 3
+            # Col: 2
+            # Column_letter: B 
 
