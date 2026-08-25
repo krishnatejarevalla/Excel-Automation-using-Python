@@ -59,3 +59,13 @@ for row in range(2, ws.max_row+1):
         # Divya Total: 360 Percentage: 90.0
         # Vijay Total: 285 Percentage: 71.25
         # Neha Total: 355 Percentage: 88.75
+
+# STEP 5 - Calculate AVERAGE for each subject
+for col in range(subject_start, subject_end+1):
+    total_marks = 0
+    for row in range(2, ws.max_row+1):
+        marks = ws.cell(row=row,column=col).value
+        total_marks = marks+total_marks
+    student_count = ws.max_row-1
+    average = total_marks/student_count
+    print(ws.cell(row=1,column=col).value,"Average:",average)
