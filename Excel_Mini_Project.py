@@ -88,24 +88,31 @@ for row in range(2, ws.max_row+1):
 #Sorting students from highest to lowest
 student_totals.sort(key = lambda x:x[1], reverse =True)
 
-#Print Ranks
+# STEP 7 — Build the Complete Student Report
+print("Complete Student Report")
 rank =1
 for student in student_totals:
+    student_name = student[0]
+    total = student[1]
+    max_marks = (subject_end - subject_start + 1) * 100
+    percentage = (total / max_marks) * 100
     print(
             "Rank:",rank,
-            "Student:",student[0],
-            "Total:",student[1]
+            "| Student:",student_name,
+            "| Total:",total,
+            "| Percentage:",percentage
     )
     rank = rank+1
 
                     #Output:
-                    # Rank: 1 Student: Anjali Total: 376
-                    # Rank: 2 Student: Sneha Total: 362
-                    # Rank: 3 Student: Divya Total: 360
-                    # Rank: 4 Student: Priya Total: 355
-                    # Rank: 5 Student: Neha Total: 355
-                    # Rank: 6 Student: Ravi Total: 335
-                    # Rank: 7 Student: Rahul Total: 322
-                    # Rank: 8 Student: Kiran Total: 299
-                    # Rank: 9 Student: Vijay Total: 285
-                    # Rank: 10 Student: Arjun Total: 275
+                    # Complete Student Report
+                    # Rank: 1 | Student: Anjali | Total: 376 | Percentage: 94.0
+                    # Rank: 2 | Student: Sneha | Total: 362 | Percentage: 90.5
+                    # Rank: 3 | Student: Divya | Total: 360 | Percentage: 90.0
+                    # Rank: 4 | Student: Priya | Total: 355 | Percentage: 88.75
+                    # Rank: 5 | Student: Neha | Total: 355 | Percentage: 88.75
+                    # Rank: 6 | Student: Ravi | Total: 335 | Percentage: 83.75
+                    # Rank: 7 | Student: Rahul | Total: 322 | Percentage: 80.5
+                    # Rank: 8 | Student: Kiran | Total: 299 | Percentage: 74.75
+                    # Rank: 9 | Student: Vijay | Total: 285 | Percentage: 71.25
+                    # Rank: 10 | Student: Arjun | Total: 275 | Percentage: 68.75
