@@ -26,4 +26,31 @@ for col in range(1, ws.max_column+1):
         # 5 Excel
         # 6 PowerBI
 
+# STEP 3 — Identify the subject columns
+subject_start = 3
+subject_end = ws.max_column
+print("\nSubjects:")
+for col in range(subject_start, subject_end+1):
+    print(ws.cell(row=1,column=col).value)
 
+
+# STEP 4 — Calculate TOTAL for each student
+print("\nStudent Total Marks")
+for row in range(2, ws.max_row+1):
+    total = 0
+    for col in range(subject_start, subject_end+1):
+        marks = ws.cell(row = row, column = col).value
+        total = total + marks
+    print("Total Marks of Student",ws.cell(row=row,column=2).value,"is",total)
+        #Output:
+        # Student Total Marks
+        # Total Marks of Student Ravi is 335
+        # Total Marks of Student Priya is 355
+        # Total Marks of Student Arjun is 275
+        # Total Marks of Student Sneha is 362
+        # Total Marks of Student Kiran is 299
+        # Total Marks of Student Anjali is 376
+        # Total Marks of Student Rahul is 322
+        # Total Marks of Student Divya is 360
+        # Total Marks of Student Vijay is 285
+        # Total Marks of Student Neha is 355
