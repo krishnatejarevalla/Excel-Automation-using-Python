@@ -69,3 +69,8 @@ for col in range(subject_start, subject_end+1):
     student_count = ws.max_row-1
     average = total_marks/student_count
     print(ws.cell(row=1,column=col).value,"Average:",average)
+        #Output:
+        # Python Average: 81.8
+        # SQL Average: 82.7
+        # Excel Average: 85.1
+        # PowerBI Average: 82.8
