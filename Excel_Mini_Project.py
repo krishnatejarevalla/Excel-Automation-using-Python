@@ -74,3 +74,38 @@ for col in range(subject_start, subject_end+1):
         # SQL Average: 82.7
         # Excel Average: 85.1
         # PowerBI Average: 82.8
+
+# STEP 6 - Rank students according to total marks
+student_totals = []
+for row in range(2, ws.max_row+1):
+    total = 0
+    for col in range(subject_start, subject_end+1):
+        marks = ws.cell(row=row,column=col).value
+        total = marks +total
+    student_name = ws.cell(row=row,column=2).value
+    student_totals.append([student_name,total])
+
+#Sorting students from highest to lowest
+student_totals.sort(key = lambda x:x[1], reverse =True)
+
+#Print Ranks
+rank =1
+for student in student_totals:
+    print(
+            "Rank:",rank,
+            "Student:",student[0],
+            "Total:",student[1]
+    )
+    rank = rank+1
+
+                    #Output:
+                    # Rank: 1 Student: Anjali Total: 376
+                    # Rank: 2 Student: Sneha Total: 362
+                    # Rank: 3 Student: Divya Total: 360
+                    # Rank: 4 Student: Priya Total: 355
+                    # Rank: 5 Student: Neha Total: 355
+                    # Rank: 6 Student: Ravi Total: 335
+                    # Rank: 7 Student: Rahul Total: 322
+                    # Rank: 8 Student: Kiran Total: 299
+                    # Rank: 9 Student: Vijay Total: 285
+                    # Rank: 10 Student: Arjun Total: 275
