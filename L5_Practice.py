@@ -13,6 +13,9 @@ for row in range(min_row, max_row+1):
     for col in range(min_col, max_col+1):
         if str(ws.cell(row=row, column=col).value) == Item:
             print(f"{Item}","is found at",ws.cell(row,col).coordinate)
+            for col in range(min_col, max_col+1):
+                print(ws.cell(row=row,column=col).value, end = " ")
+            print()
             found =True
             count = count+1
 print("Total matches:",count)
@@ -26,3 +29,7 @@ if not found:
     # 90 is found at F9
     # 90 is found at D11
     # Total matches: 3
+
+
+#Getting Details of Searched Item
+
