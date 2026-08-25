@@ -34,23 +34,28 @@ for col in range(subject_start, subject_end+1):
     print(ws.cell(row=1,column=col).value)
 
 
-# STEP 4 — Calculate TOTAL for each student
+# STEP 4 — Calculate TOTAL for each student and Percentage
 print("\nStudent Total Marks")
 for row in range(2, ws.max_row+1):
     total = 0
     for col in range(subject_start, subject_end+1):
         marks = ws.cell(row = row, column = col).value
         total = total + marks
-    print("Total Marks of Student",ws.cell(row=row,column=2).value,"is",total)
+    max_marks = (subject_end - subject_start +1)*100
+    percentage = (total/max_marks)*100
+    print(ws.cell(row=row,column=2).value,
+          "Total:",total,
+          "Percentage:",percentage)
+
         #Output:
         # Student Total Marks
-        # Total Marks of Student Ravi is 335
-        # Total Marks of Student Priya is 355
-        # Total Marks of Student Arjun is 275
-        # Total Marks of Student Sneha is 362
-        # Total Marks of Student Kiran is 299
-        # Total Marks of Student Anjali is 376
-        # Total Marks of Student Rahul is 322
-        # Total Marks of Student Divya is 360
-        # Total Marks of Student Vijay is 285
-        # Total Marks of Student Neha is 355
+        # Ravi Total: 335 Percentage: 83.75
+        # Priya Total: 355 Percentage: 88.75
+        # Arjun Total: 275 Percentage: 68.75
+        # Sneha Total: 362 Percentage: 90.5
+        # Kiran Total: 299 Percentage: 74.75
+        # Anjali Total: 376 Percentage: 94.0
+        # Rahul Total: 322 Percentage: 80.5
+        # Divya Total: 360 Percentage: 90.0
+        # Vijay Total: 285 Percentage: 71.25
+        # Neha Total: 355 Percentage: 88.75
