@@ -80,12 +80,31 @@ def find_student(ws, search_value):
 search_value = input("\nEnter Student ID or Name: ").strip()
 student_row = find_student(ws, search_value)
 
+
+# STEP 4 - Get Student Subject Marks
+
+def get_student_marks(ws, student_row, subjects):
+    student_marks = {}
+    for subject, column in subjects.items():
+        marks = ws.cell(row=student_row, column=column).value
+        student_marks[subject] = marks
+
+    return student_marks   
+
+
+
 #Printing the Search Result
 if student_row is None:
     print("\nStudent not found.")
 else:
     print("\nStudent found!")
     print("Excel Row:", student_row)
+    student_marks = get_student_marks(ws, student_row, subjects)
+
+    print("\nSubject Marks:")
+
+    for subject, marks in student_marks.items():
+        print(subject, ":", marks)
 
         # OUTPUT:
         # Enter Student ID or Name: priya
@@ -93,5 +112,4 @@ else:
         # Excel Row: 3
         # Enter Student ID or Name: Krishna
         # Student not found.
-    
     
