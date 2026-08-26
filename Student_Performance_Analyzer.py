@@ -82,7 +82,6 @@ student_row = find_student(ws, search_value)
 
 
 # STEP 4 - Get Student Subject Marks
-
 def get_student_marks(ws, student_row, subjects):
     student_marks = {}
     for subject, column in subjects.items():
@@ -91,7 +90,15 @@ def get_student_marks(ws, student_row, subjects):
 
     return student_marks   
 
+# STEP 5 - Calculate Student Performance
 
+def calculate_performance(student_marks):
+    total = sum(student_marks.values())
+    subject_count = len(student_marks)
+    max_marks = subject_count * 100
+    percentage = (total / max_marks) * 100
+    average = total / subject_count
+    return total, average, percentage
 
 #Printing the Search Result
 if student_row is None:
@@ -100,16 +107,29 @@ else:
     print("\nStudent found!")
     print("Excel Row:", student_row)
     student_marks = get_student_marks(ws, student_row, subjects)
-
     print("\nSubject Marks:")
-
     for subject, marks in student_marks.items():
         print(subject, ":", marks)
+    total, average, percentage = calculate_performance(student_marks)
+    print("\nPerformance:")
+    print("Total:", total)
+    print("Average:", average)
+    print("Percentage:", percentage)
 
         # OUTPUT:
-        # Enter Student ID or Name: priya
+        # Enter Student ID or Name: 103
+
         # Student found!
-        # Excel Row: 3
-        # Enter Student ID or Name: Krishna
-        # Student not found.
+        # Excel Row: 4
+
+        # Subject Marks:
+        # Python : 65
+        # SQL : 72
+        # Excel : 70
+        # PowerBI : 68
+
+        # Performance:
+        # Total: 275
+        # Average: 68.75
+        # Percentage: 68.75
     
