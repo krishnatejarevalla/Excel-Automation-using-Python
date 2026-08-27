@@ -146,7 +146,40 @@ def calculate_student_rank(student_totals, student_row, ws):
     return rank
 
 
-#Printing the Search Result
+
+# STEP 7 - Generate Complete Student Report
+
+def display_student_report(ws, student_row, student_marks, total, average, percentage, rank):
+
+    student_id = ws.cell(row=student_row, column=1).value
+    student_name = ws.cell(row=student_row, column=2).value
+
+    print("\n" + "=" * 60)
+    print("              STUDENT PERFORMANCE REPORT")
+    print("=" * 60)
+
+    print("\nStudent ID :", student_id)
+    print("Student    :", student_name)
+
+    print("\n" + "-" * 60)
+    print("Subject Marks")
+    print("-" * 60)
+
+    for subject, marks in student_marks.items():
+        print(f"{subject:<12}: {marks}")
+
+    print("\n" + "-" * 60)
+    print("Performance Summary")
+    print("-" * 60)
+
+    max_marks = len(student_marks) * 100
+
+    print(f"Total      : {total} / {max_marks}")
+    print(f"Average    : {average:.2f}")
+    print(f"Percentage : {percentage:.2f}%")
+    print(f"Rank       : {rank}")
+
+    print("\n" + "=" * 60) 
 # Printing the Search Result
 
 if student_row is None:
@@ -175,11 +208,15 @@ else:
     # Calculate student's rank
     rank = calculate_student_rank(student_totals, student_row, ws)
 
-    print("\nPerformance:")
-    print("Total:", total)
-    print("Average:", average)
-    print("Percentage:", percentage)
-    print("Rank:", rank)
+    display_student_report(
+    ws,
+    student_row,
+    student_marks,
+    total,
+    average,
+    percentage,
+    rank
+)
 
         # OUTPUT:
         # Enter Student ID or Name: anjali
