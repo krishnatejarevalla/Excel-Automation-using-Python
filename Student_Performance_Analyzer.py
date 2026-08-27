@@ -77,9 +77,6 @@ def find_student(ws, search_value):
 
     return None
 
-search_value = input("\nEnter Student ID or Name: ").strip()
-student_row = find_student(ws, search_value)
-
 
 # STEP 4 - Get Student Subject Marks
 def get_student_marks(ws, student_row, subjects):
@@ -177,18 +174,18 @@ def calculate_student_rank(student_totals, student_row, ws):
 # STEP 7 - Generate Complete Student Report
 
 def display_student_report(
-    ws,
-    student_row,
-    student_marks,
-    total,
-    average,
-    percentage,
-    rank,
-    highest_subject,
-    highest_marks,
-    lowest_subject,
-    lowest_marks,
-    performance_level
+        ws,
+        student_row,
+        student_marks,
+        total,
+        average,
+        percentage,
+        rank,
+        highest_subject,
+        highest_marks,
+        lowest_subject,
+        lowest_marks,
+        performance_level
 ):
 
     student_id = ws.cell(row=student_row, column=1).value
@@ -219,52 +216,6 @@ def display_student_report(
     print(f"Percentage : {percentage:.2f}%")
     print(f"Rank       : {rank}")
 
-    print("\n" + "=" * 60) 
-# Printing the Search Result
-
-if student_row is None:
-
-    print("\nStudent not found.")
-
-else:
-
-    print("\nStudent found!")
-    print("Excel Row:", student_row)
-
-    # Get student's subject marks
-    student_marks = get_student_marks(ws, student_row, subjects)
-
-    print("\nSubject Marks:")
-
-    for subject, marks in student_marks.items():
-        print(subject, ":", marks)
-
-    # Calculate student's performance
-    total, average, percentage = calculate_performance(student_marks)
-
-    # Calculate totals of all students
-    student_totals = calculate_student_totals(ws, subjects)
-
-    # Calculate student's rank
-    rank = calculate_student_rank(student_totals, student_row, ws)
-
-    # Analyze student's performance
-    highest_subject, highest_marks, lowest_subject, lowest_marks, performance_level = analyze_student_performance(student_marks)
-
-    display_student_report(
-    ws,
-    student_row,
-    student_marks,
-    total,
-    average,
-    percentage,
-    rank,
-    highest_subject,
-    highest_marks,
-    lowest_subject,
-    lowest_marks,
-    performance_level
-)
     print("\n" + "-" * 60)
     print("Performance Insights")
     print("-" * 60)
@@ -275,52 +226,68 @@ else:
 
     print("\n" + "=" * 60)
 
-        # OUTPUT:
-        # Enter Student ID or Name: anjali
 
-        # Student found!
-        # Excel Row: 7
+# STEP 10 - Search Student Function
 
-        # Subject Marks:
-        # Python : 95
-        # SQL : 91
-        # Excel : 96
-        # PowerBI : 94
+def search_student(ws, subjects):
 
-        # ============================================================
-        #               STUDENT PERFORMANCE REPORT
-        # ============================================================
+    search_value = input("\nEnter Student ID or Name: ").strip()
 
-        # Student ID : 106
-        # Student    : Anjali
+    student_row = find_student(ws, search_value)
 
-        # ------------------------------------------------------------
-        # Subject Marks
-        # ------------------------------------------------------------
-        # Python      : 95
-        # SQL         : 91
-        # Excel       : 96
-        # PowerBI     : 94
+    if student_row is None:
+        print("\nStudent not found.")
+        return
 
-        # ------------------------------------------------------------
-        # Performance Summary
-        # ------------------------------------------------------------
-        # Total      : 376 / 400
-        # Average    : 94.00
-        # Percentage : 94.00%
-        # Rank       : 1
+    print("\nStudent found!")
+    print("Excel Row:", student_row)
 
-        # ============================================================
+    # Get student's subject marks
+    student_marks = get_student_marks(
+        ws,
+        student_row,
+        subjects
+    )
 
-        # ------------------------------------------------------------
-        # Performance Insights
-        # ------------------------------------------------------------
-        # Highest Subject : Excel (96)
-        # Lowest Subject  : SQL (91)
-        # Performance     : Excellent
+    # Calculate student's performance
+    total, average, percentage = calculate_performance(
+        student_marks
+    )
 
-        # ============================================================
-        # PS D:\Excel Automation with Python> 
+    # Calculate totals of all students
+    student_totals = calculate_student_totals(
+        ws,
+        subjects
+    )
+
+    # Calculate student's rank
+    rank = calculate_student_rank(
+        student_totals,
+        student_row,
+        ws
+    )
+
+    # Analyze student's performance
+    highest_subject, highest_marks, lowest_subject, lowest_marks, performance_level = analyze_student_performance(
+        student_marks
+    )
+
+    # Display complete report
+    display_student_report(
+        ws,
+        student_row,
+        student_marks,
+        total,
+        average,
+        percentage,
+        rank,
+        highest_subject,
+        highest_marks,
+        lowest_subject,
+        lowest_marks,
+        performance_level
+    )
+
     
 # STEP 9 - Main Menu
 
@@ -338,7 +305,7 @@ while True:
     choice = input("\nEnter your choice: ").strip()
 
     if choice == "1":
-        print("\nSearch Student selected.")
+        search_student(ws, subjects)
 
     elif choice == "2":
         print("\nClass Statistics selected.")
