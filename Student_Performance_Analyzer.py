@@ -100,36 +100,102 @@ def calculate_performance(student_marks):
     average = total / subject_count
     return total, average, percentage
 
+# STEP 6 - Calculate Student Rank
+
+def calculate_student_totals(ws, subjects):
+
+    student_totals = []
+
+    for row in range(2, ws.max_row + 1):
+
+        student_id = ws.cell(row=row, column=1).value
+        student_name = ws.cell(row=row, column=2).value
+
+        total = 0
+
+        for column in subjects.values():
+
+            marks = ws.cell(row=row, column=column).value
+            total = total + marks
+
+        student_totals.append({
+            "id": student_id,
+            "name": student_name,
+            "total": total
+        })
+
+    return student_totals
+
+def calculate_student_rank(student_totals, student_row, ws):
+
+    target_total = 0
+
+    for student in student_totals:
+
+        if student["id"] == ws.cell(row=student_row, column=1).value:
+            target_total = student["total"]
+            break
+
+    rank = 1
+
+    for student in student_totals:
+
+        if student["total"] > target_total:
+            rank = rank + 1
+
+    return rank
+
+
 #Printing the Search Result
+# Printing the Search Result
+
 if student_row is None:
+
     print("\nStudent not found.")
+
 else:
+
     print("\nStudent found!")
     print("Excel Row:", student_row)
+
+    # Get student's subject marks
     student_marks = get_student_marks(ws, student_row, subjects)
+
     print("\nSubject Marks:")
+
     for subject, marks in student_marks.items():
         print(subject, ":", marks)
+
+    # Calculate student's performance
     total, average, percentage = calculate_performance(student_marks)
+
+    # Calculate totals of all students
+    student_totals = calculate_student_totals(ws, subjects)
+
+    # Calculate student's rank
+    rank = calculate_student_rank(student_totals, student_row, ws)
+
     print("\nPerformance:")
     print("Total:", total)
     print("Average:", average)
     print("Percentage:", percentage)
+    print("Rank:", rank)
 
         # OUTPUT:
-        # Enter Student ID or Name: 103
+        # Enter Student ID or Name: anjali
 
         # Student found!
-        # Excel Row: 4
+        # Excel Row: 7
 
         # Subject Marks:
-        # Python : 65
-        # SQL : 72
-        # Excel : 70
-        # PowerBI : 68
+        # Python : 95
+        # SQL : 91
+        # Excel : 96
+        # PowerBI : 94
 
         # Performance:
-        # Total: 275
-        # Average: 68.75
-        # Percentage: 68.75
+        # Total: 376
+        # Average: 94.0
+        # Percentage: 94.0
+        # Rank: 1
     
