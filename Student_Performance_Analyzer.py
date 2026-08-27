@@ -311,4 +311,44 @@ else:
         # Rank       : 1
 
         # ============================================================
+
+        # ------------------------------------------------------------
+        # Performance Insights
+        # ------------------------------------------------------------
+        # Highest Subject : Excel (96)
+        # Lowest Subject  : SQL (91)
+        # Performance     : Excellent
+
+        # ============================================================
+        # PS D:\Excel Automation with Python> 
     
+# STEP 9 - Main Menu
+
+while True:
+
+    print("\n" + "=" * 60)
+    print("        STUDENT PERFORMANCE ANALYZER")
+    print("=" * 60)
+
+    print("1. Search Student")
+    print("2. View Class Statistics")
+    print("3. View Top Performers")
+    print("4. Exit")
+
+    choice = input("\nEnter your choice: ").strip()
+
+    if choice == "1":
+        print("\nSearch Student selected.")
+
+    elif choice == "2":
+        print("\nClass Statistics selected.")
+
+    elif choice == "3":
+        print("\nTop Performers selected.")
+
+    elif choice == "4":
+        print("\nThank you for using Student Performance Analyzer!")
+        break
+
+    else:
+        print("\nInvalid choice. Please enter 1, 2, 3 or 4.")
