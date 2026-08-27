@@ -100,6 +100,33 @@ def calculate_performance(student_marks):
     average = total / subject_count
     return total, average, percentage
 
+# STEP 8 - Analyze Student Performance
+
+def analyze_student_performance(student_marks):
+
+    highest_subject = max(student_marks, key=student_marks.get)
+    lowest_subject = min(student_marks, key=student_marks.get)
+
+    highest_marks = student_marks[highest_subject]
+    lowest_marks = student_marks[lowest_subject]
+
+    if highest_marks >= 90:
+        performance_level = "Excellent"
+    elif highest_marks >= 75:
+        performance_level = "Good"
+    elif highest_marks >= 50:
+        performance_level = "Average"
+    else:
+        performance_level = "Needs Improvement"
+
+    return (
+        highest_subject,
+        highest_marks,
+        lowest_subject,
+        lowest_marks,
+        performance_level
+    )
+
 # STEP 6 - Calculate Student Rank
 
 def calculate_student_totals(ws, subjects):
@@ -149,7 +176,20 @@ def calculate_student_rank(student_totals, student_row, ws):
 
 # STEP 7 - Generate Complete Student Report
 
-def display_student_report(ws, student_row, student_marks, total, average, percentage, rank):
+def display_student_report(
+    ws,
+    student_row,
+    student_marks,
+    total,
+    average,
+    percentage,
+    rank,
+    highest_subject,
+    highest_marks,
+    lowest_subject,
+    lowest_marks,
+    performance_level
+):
 
     student_id = ws.cell(row=student_row, column=1).value
     student_name = ws.cell(row=student_row, column=2).value
@@ -208,6 +248,9 @@ else:
     # Calculate student's rank
     rank = calculate_student_rank(student_totals, student_row, ws)
 
+    # Analyze student's performance
+    highest_subject, highest_marks, lowest_subject, lowest_marks, performance_level = analyze_student_performance(student_marks)
+
     display_student_report(
     ws,
     student_row,
@@ -215,8 +258,22 @@ else:
     total,
     average,
     percentage,
-    rank
+    rank,
+    highest_subject,
+    highest_marks,
+    lowest_subject,
+    lowest_marks,
+    performance_level
 )
+    print("\n" + "-" * 60)
+    print("Performance Insights")
+    print("-" * 60)
+
+    print(f"Highest Subject : {highest_subject} ({highest_marks})")
+    print(f"Lowest Subject  : {lowest_subject} ({lowest_marks})")
+    print(f"Performance     : {performance_level}")
+
+    print("\n" + "=" * 60)
 
         # OUTPUT:
         # Enter Student ID or Name: anjali
@@ -230,9 +287,28 @@ else:
         # Excel : 96
         # PowerBI : 94
 
-        # Performance:
-        # Total: 376
-        # Average: 94.0
-        # Percentage: 94.0
-        # Rank: 1
+        # ============================================================
+        #               STUDENT PERFORMANCE REPORT
+        # ============================================================
+
+        # Student ID : 106
+        # Student    : Anjali
+
+        # ------------------------------------------------------------
+        # Subject Marks
+        # ------------------------------------------------------------
+        # Python      : 95
+        # SQL         : 91
+        # Excel       : 96
+        # PowerBI     : 94
+
+        # ------------------------------------------------------------
+        # Performance Summary
+        # ------------------------------------------------------------
+        # Total      : 376 / 400
+        # Average    : 94.00
+        # Percentage : 94.00%
+        # Rank       : 1
+
+        # ============================================================
     
