@@ -97,7 +97,7 @@ def calculate_performance(student_marks):
     average = total / subject_count
     return total, average, percentage
 
-# STEP 8 - Analyze Student Performance
+# STEP 7 - Analyze Student Performance
 
 def analyze_student_performance(student_marks):
 
@@ -169,9 +169,62 @@ def calculate_student_rank(student_totals, student_row, ws):
 
     return rank
 
+# STEP 8 - Calculate Class Statistics
+
+def calculate_class_statistics(ws, subjects):
+
+    class_statistics = {}
+
+    for subject, column in subjects.items():
+
+        marks_list = []
+
+        for row in range(2, ws.max_row + 1):
+
+            marks = ws.cell(row=row, column=column).value
+            marks_list.append(marks)
+
+        average = sum(marks_list) / len(marks_list)
+        highest = max(marks_list)
+        lowest = min(marks_list)
+
+        class_statistics[subject] = {
+            "average": average,
+            "highest": highest,
+            "lowest": lowest
+        }
+
+    return class_statistics
+
+# STEP 9 - Display Class Statistics
+
+def display_class_statistics(ws, subjects):
+
+    class_statistics = calculate_class_statistics(ws, subjects)
+
+    print("\n" + "=" * 60)
+    print("                 CLASS STATISTICS")
+    print("=" * 60)
+
+    print("\nTotal Students :", ws.max_row - 1)
+    print("Total Subjects :", len(subjects))
+
+    print("\n" + "-" * 60)
+    print("Subject Statistics")
+    print("-" * 60)
+
+    for subject, statistics in class_statistics.items():
+
+        print(f"\n{subject}")
+        print(f"Average : {statistics['average']:.2f}")
+        print(f"Highest : {statistics['highest']}")
+        print(f"Lowest  : {statistics['lowest']}")
+
+    print("\n" + "=" * 60)
 
 
-# STEP 7 - Generate Complete Student Report
+
+# STEP 10 - Generate Complete Student Report
 
 def display_student_report(
         ws,
@@ -227,7 +280,7 @@ def display_student_report(
     print("\n" + "=" * 60)
 
 
-# STEP 10 - Search Student Function
+# STEP 11 - Search Student Function
 
 def search_student(ws, subjects):
 
@@ -287,9 +340,8 @@ def search_student(ws, subjects):
         lowest_marks,
         performance_level
     )
-
     
-# STEP 9 - Main Menu
+# STEP 12 - Main Menu
 
 while True:
 
@@ -308,7 +360,7 @@ while True:
         search_student(ws, subjects)
 
     elif choice == "2":
-        print("\nClass Statistics selected.")
+        display_class_statistics(ws, subjects)
 
     elif choice == "3":
         print("\nTop Performers selected.")
