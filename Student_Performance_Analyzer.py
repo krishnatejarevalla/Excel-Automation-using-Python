@@ -309,6 +309,78 @@ def compare_with_class_average(ws, subjects, student_row, student_marks):
 
     print("-" * 60)
 
+# STEP 16 - Display Overall Class Performance
+
+def display_class_overview(ws, subjects):
+
+    class_statistics = calculate_class_statistics(ws, subjects)
+    student_totals = calculate_student_totals(ws, subjects)
+
+    # Calculate overall class average
+    subject_averages = []
+
+    for statistics in class_statistics.values():
+        subject_averages.append(statistics["average"])
+
+    overall_average = sum(subject_averages) / len(subject_averages)
+
+    # Find best and lowest performing subjects
+    best_subject = max(
+        class_statistics,
+        key=lambda subject: class_statistics[subject]["average"]
+    )
+
+    lowest_subject = min(
+        class_statistics,
+        key=lambda subject: class_statistics[subject]["average"]
+    )
+
+    # Find highest and lowest scoring students
+    highest_student = max(
+        student_totals,
+        key=lambda student: student["total"]
+    )
+
+    lowest_student = min(
+        student_totals,
+        key=lambda student: student["total"]
+    )
+
+    print("\n" + "=" * 60)
+    print("              CLASS PERFORMANCE OVERVIEW")
+    print("=" * 60)
+
+    print("\nTotal Students :", ws.max_row - 1)
+    print("Total Subjects :", len(subjects))
+
+    print("\nOverall Class Average :", f"{overall_average:.2f}%")
+
+    print(
+        "\nBest Performing Subject :",
+        best_subject,
+        f"({class_statistics[best_subject]['average']:.2f})"
+    )
+
+    print(
+        "Lowest Performing Subject:",
+        lowest_subject,
+        f"({class_statistics[lowest_subject]['average']:.2f})"
+    )
+
+    print(
+        "\nHighest Scoring Student :",
+        highest_student["name"],
+        f"({highest_student['total']})"
+    )
+
+    print(
+        "Lowest Scoring Student  :",
+        lowest_student["name"],
+        f"({lowest_student['total']})"
+    )
+
+    print("\n" + "=" * 60)
+
 # STEP 10 - Generate Complete Student Report
 
 def display_student_report(
@@ -452,6 +524,7 @@ while True:
 
     elif choice == "2":
         display_class_statistics(ws, subjects)
+        display_class_overview(ws, subjects)
 
     elif choice == "3":
         display_top_performers(ws, subjects)
@@ -462,54 +535,3 @@ while True:
 
     else:
         print("\nInvalid choice. Please enter 1, 2, 3 or 4.")
-
-            # OUTPUT:
-            # Enter your choice: 1
-
-            # Enter Student ID or Name: anjali
-
-            # Student found!
-            # Excel Row: 7
-
-            # ============================================================
-            #               STUDENT PERFORMANCE REPORT
-            # ============================================================
-
-            # Student ID : 106
-            # Student    : Anjali
-
-            # ------------------------------------------------------------
-            # Subject Marks
-            # ------------------------------------------------------------
-            # Python      : 95
-            # SQL         : 91
-            # Excel       : 96
-            # PowerBI     : 94
-
-            # ------------------------------------------------------------
-            # Performance Summary
-            # ------------------------------------------------------------
-            # Total      : 376 / 400
-            # Average    : 94.00
-            # Percentage : 94.00%
-            # Rank       : 1
-
-            # ------------------------------------------------------------
-            # Performance Insights
-            # ------------------------------------------------------------
-            # Highest Subject : Excel (96)
-            # Lowest Subject  : SQL (91)
-            # Performance     : Excellent
-
-            # ============================================================
-
-            # ------------------------------------------------------------
-            # SUBJECT-WISE CLASS COMPARISON
-            # ------------------------------------------------------------
-            # Subject        Student     Class Avg   Difference
-            # ------------------------------------------------------------
-            # Python         95          81.80       +13.20
-            # SQL            91          82.70       +8.30
-            # Excel          96          85.10       +10.90
-            # PowerBI        94          82.80       +11.20
-            # ------------------------------------------------------------
