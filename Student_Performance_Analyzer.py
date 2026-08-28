@@ -124,6 +124,23 @@ def analyze_student_performance(student_marks):
         performance_level
     )
 
+# STEP 17 - Calculate Student Grade
+
+def calculate_grade(percentage):
+
+    if percentage >= 90:
+        return "A+"
+    elif percentage >= 80:
+        return "A"
+    elif percentage >= 70:
+        return "B"
+    elif percentage >= 60:
+        return "C"
+    elif percentage >= 50:
+        return "D"
+    else:
+        return "F"
+
 # STEP 6 - Calculate Student Rank
 
 def calculate_student_totals(ws, subjects):
@@ -395,8 +412,9 @@ def display_student_report(
         highest_marks,
         lowest_subject,
         lowest_marks,
-        performance_level
-):
+        performance_level,
+        grade
+    ):
 
     student_id = ws.cell(row=student_row, column=1).value
     student_name = ws.cell(row=student_row, column=2).value
@@ -424,6 +442,7 @@ def display_student_report(
     print(f"Total      : {total} / {max_marks}")
     print(f"Average    : {average:.2f}")
     print(f"Percentage : {percentage:.2f}%")
+    print(f"Grade      : {grade}")
     print(f"Rank       : {rank}")
 
     print("\n" + "-" * 60)
@@ -481,6 +500,8 @@ def search_student(ws, subjects):
     highest_subject, highest_marks, lowest_subject, lowest_marks, performance_level = analyze_student_performance(
         student_marks
     )
+    # Calculate student's grade
+    grade = calculate_grade(percentage)
 
     # Display complete report
     display_student_report(
@@ -495,7 +516,8 @@ def search_student(ws, subjects):
         highest_marks,
         lowest_subject,
         lowest_marks,
-        performance_level
+        performance_level,
+        grade
     )
 
     compare_with_class_average(
@@ -535,3 +557,6 @@ while True:
 
     else:
         print("\nInvalid choice. Please enter 1, 2, 3 or 4.")
+
+
+
