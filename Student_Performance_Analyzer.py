@@ -262,6 +262,53 @@ def display_top_performers(ws, subjects):
 
     print("\n" + "=" * 60)
 
+# STEP 15 - Compare Student With Class Average
+
+def compare_with_class_average(ws, subjects, student_row, student_marks):
+
+    print("\n" + "-" * 60)
+    print("SUBJECT-WISE CLASS COMPARISON")
+    print("-" * 60)
+
+    print(
+        f"{'Subject':<15}"
+        f"{'Student':<12}"
+        f"{'Class Avg':<12}"
+        f"{'Difference'}"
+    )
+
+    print("-" * 60)
+
+    for subject, column in subjects.items():
+
+        student_mark = student_marks[subject]
+
+        total_marks = 0
+
+        for row in range(2, ws.max_row + 1):
+
+            marks = ws.cell(
+                row=row,
+                column=column
+            ).value
+
+            total_marks = total_marks + marks
+
+        student_count = ws.max_row - 1
+
+        class_average = total_marks / student_count
+
+        difference = student_mark - class_average
+
+        print(
+            f"{subject:<15}"
+            f"{student_mark:<12}"
+            f"{class_average:<12.2f}"
+            f"{difference:+.2f}"
+        )
+
+    print("-" * 60)
+
 # STEP 10 - Generate Complete Student Report
 
 def display_student_report(
@@ -378,7 +425,13 @@ def search_student(ws, subjects):
         lowest_marks,
         performance_level
     )
-    
+
+    compare_with_class_average(
+        ws,
+        subjects,
+        student_row,
+        student_marks
+    )
 # STEP 12 - Main Menu
 
 while True:
@@ -410,29 +463,53 @@ while True:
     else:
         print("\nInvalid choice. Please enter 1, 2, 3 or 4.")
 
+            # OUTPUT:
+            # Enter your choice: 1
 
-        # OUTPUT:
-        # ============================================================
-        #         STUDENT PERFORMANCE ANALYZER
-        # ============================================================
-        # 1. Search Student
-        # 2. View Class Statistics
-        # 3. View Top Performers
-        # 4. Exit
+            # Enter Student ID or Name: anjali
 
-        # Enter your choice: 3
+            # Student found!
+            # Excel Row: 7
 
-        # ============================================================
-        #                     TOP PERFORMERS
-        # ============================================================
+            # ============================================================
+            #               STUDENT PERFORMANCE REPORT
+            # ============================================================
 
-        # ------------------------------------------------------------
-        # Rank    Student        Total       Percentage
-        # ------------------------------------------------------------
-        # 1       Anjali         376         94.00%
-        # 2       Sneha          362         90.50%
-        # 3       Divya          360         90.00%
-        # 4       Priya          355         88.75%
-        # 4       Neha           355         88.75%
+            # Student ID : 106
+            # Student    : Anjali
 
-        # ============================================================
+            # ------------------------------------------------------------
+            # Subject Marks
+            # ------------------------------------------------------------
+            # Python      : 95
+            # SQL         : 91
+            # Excel       : 96
+            # PowerBI     : 94
+
+            # ------------------------------------------------------------
+            # Performance Summary
+            # ------------------------------------------------------------
+            # Total      : 376 / 400
+            # Average    : 94.00
+            # Percentage : 94.00%
+            # Rank       : 1
+
+            # ------------------------------------------------------------
+            # Performance Insights
+            # ------------------------------------------------------------
+            # Highest Subject : Excel (96)
+            # Lowest Subject  : SQL (91)
+            # Performance     : Excellent
+
+            # ============================================================
+
+            # ------------------------------------------------------------
+            # SUBJECT-WISE CLASS COMPARISON
+            # ------------------------------------------------------------
+            # Subject        Student     Class Avg   Difference
+            # ------------------------------------------------------------
+            # Python         95          81.80       +13.20
+            # SQL            91          82.70       +8.30
+            # Excel          96          85.10       +10.90
+            # PowerBI        94          82.80       +11.20
+            # ------------------------------------------------------------
