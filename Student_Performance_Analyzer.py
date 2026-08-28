@@ -244,7 +244,12 @@ def display_top_performers(ws, subjects):
 
     max_marks = len(subjects) * 100
 
-    for rank, student in enumerate(student_totals[:5], start=1):
+    for student in student_totals[:5]:
+
+        rank = 1 + sum(
+            other_student["total"] > student["total"]
+            for other_student in student_totals
+        )
 
         percentage = (student["total"] / max_marks) * 100
 
@@ -405,28 +410,29 @@ while True:
     else:
         print("\nInvalid choice. Please enter 1, 2, 3 or 4.")
 
-                # OUTPUT:
-                # ============================================================
-                #         STUDENT PERFORMANCE ANALYZER
-                # ============================================================
-                # 1. Search Student
-                # 2. View Class Statistics
-                # 3. View Top Performers
-                # 4. Exit
 
-                # Enter your choice: 3
+        # OUTPUT:
+        # ============================================================
+        #         STUDENT PERFORMANCE ANALYZER
+        # ============================================================
+        # 1. Search Student
+        # 2. View Class Statistics
+        # 3. View Top Performers
+        # 4. Exit
 
-                # ============================================================
-                #                     TOP PERFORMERS
-                # ============================================================
+        # Enter your choice: 3
 
-                # ------------------------------------------------------------
-                # Rank    Student        Total       Percentage
-                # ------------------------------------------------------------
-                # 1       Anjali         376         94.00%
-                # 2       Sneha          362         90.50%
-                # 3       Divya          360         90.00%
-                # 4       Priya          355         88.75%
-                # 5       Neha           355         88.75%
+        # ============================================================
+        #                     TOP PERFORMERS
+        # ============================================================
 
-                # ============================================================
+        # ------------------------------------------------------------
+        # Rank    Student        Total       Percentage
+        # ------------------------------------------------------------
+        # 1       Anjali         376         94.00%
+        # 2       Sneha          362         90.50%
+        # 3       Divya          360         90.00%
+        # 4       Priya          355         88.75%
+        # 4       Neha           355         88.75%
+
+        # ============================================================
