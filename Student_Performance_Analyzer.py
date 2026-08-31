@@ -9,6 +9,7 @@
 
 from openpyxl import load_workbook
 from openpyxl import Workbook
+from openpyxl.styles import Font, Alignment, Border, Side, PatternFill
 
 # STEP 1 - Load the Excel Workbook
 
@@ -530,6 +531,9 @@ def export_student_report(
 
     # Report title
     report_ws["A1"] = "STUDENT PERFORMANCE REPORT"
+    report_ws["A1"].font = Font(bold=True, size=16)
+    report_ws["A1"].alignment = Alignment(horizontal="center")
+    report_ws.merge_cells("A1:B1")
 
     # Student details
     report_ws["A3"] = "Student ID"
@@ -541,6 +545,11 @@ def export_student_report(
     # Subject marks
     report_ws["A6"] = "Subject"
     report_ws["B6"] = "Marks"
+    report_ws["A6"].font = Font(bold=True)
+    report_ws["B6"].font = Font(bold=True)
+
+    report_ws["A6"].alignment = Alignment(horizontal="center")
+    report_ws["B6"].alignment = Alignment(horizontal="center")
 
     row = 7
 
@@ -599,6 +608,19 @@ def export_student_report(
     # Adjust column widths
     report_ws.column_dimensions["A"].width = 25
     report_ws.column_dimensions["B"].width = 25
+
+    # Add borders to used cells
+    thin_border = Border(
+        left=Side(style="thin"),
+        right=Side(style="thin"),
+        top=Side(style="thin"),
+        bottom=Side(style="thin")
+    )
+
+    for row in report_ws.iter_rows():
+        for cell in row:
+            if cell.value is not None:
+                cell.border = thin_border
 
     # Save the report
     filename = f"{student_name}_Report.xlsx"
@@ -737,10 +759,6 @@ while True:
 
         # OUTPUT:
         
-        # Do you want to export this report to Excel? (y/n): y
-
-        # Report exported successfully!
-        # File: Anjali_Report.xlsx
 
 
 
