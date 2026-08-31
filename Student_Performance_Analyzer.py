@@ -97,7 +97,7 @@ def calculate_performance(student_marks):
     average = total / subject_count
     return total, average, percentage
 
-# STEP 7 - Analyze Student Performance
+# STEP 6 - Analyze Student Performance
 
 def analyze_student_performance(student_marks):
 
@@ -124,7 +124,7 @@ def analyze_student_performance(student_marks):
         performance_level
     )
 
-# STEP 17 - Calculate Student Grade
+# STEP 7 - Calculate Student Grade
 
 def calculate_grade(percentage):
 
@@ -141,7 +141,7 @@ def calculate_grade(percentage):
     else:
         return "F"
 
-# STEP 6 - Calculate Student Rank
+# STEP 8 - Calculate Student Rank
 
 def calculate_student_totals(ws, subjects):
 
@@ -186,7 +186,7 @@ def calculate_student_rank(student_totals, student_row, ws):
 
     return rank
 
-# STEP 8 - Calculate Class Statistics
+# STEP 9 - Calculate Class Statistics
 
 def calculate_class_statistics(ws, subjects):
 
@@ -213,7 +213,7 @@ def calculate_class_statistics(ws, subjects):
 
     return class_statistics
 
-# STEP 9 - Display Class Statistics
+# STEP 10 - Display Class Statistics
 
 def display_class_statistics(ws, subjects):
 
@@ -239,7 +239,7 @@ def display_class_statistics(ws, subjects):
 
     print("\n" + "=" * 60)
 
-# STEP 13 - Display Top Performers
+# STEP 11 - Display Top Performers
 
 def display_top_performers(ws, subjects):
 
@@ -279,7 +279,7 @@ def display_top_performers(ws, subjects):
 
     print("\n" + "=" * 60)
 
-# STEP 15 - Compare Student With Class Average
+# STEP 12 - Compare Student With Class Average
 
 def compare_with_class_average(ws, subjects, student_row, student_marks):
 
@@ -326,7 +326,7 @@ def compare_with_class_average(ws, subjects, student_row, student_marks):
 
     print("-" * 60)
 
-# STEP 16 - Display Overall Class Performance
+# STEP 13 - Display Overall Class Performance
 
 def display_class_overview(ws, subjects):
 
@@ -398,7 +398,28 @@ def display_class_overview(ws, subjects):
 
     print("\n" + "=" * 60)
 
-# STEP 10 - Generate Complete Student Report
+
+# STEP 14 - Analyze Subject-wise Pass/Fail Status
+
+def analyze_subject_results(student_marks, pass_mark=40):
+
+    subject_results = {}
+
+    for subject, marks in student_marks.items():
+
+        if marks >= pass_mark:
+            status = "PASS"
+        else:
+            status = "FAIL"
+
+        subject_results[subject] = {
+            "marks": marks,
+            "status": status
+        }
+
+    return subject_results
+
+# STEP 15 - Generate Complete Student Report
 
 def display_student_report(
         ws,
@@ -413,7 +434,8 @@ def display_student_report(
         lowest_subject,
         lowest_marks,
         performance_level,
-        grade
+        grade,
+        subject_results
     ):
 
     student_id = ws.cell(row=student_row, column=1).value
@@ -431,7 +453,30 @@ def display_student_report(
     print("-" * 60)
 
     for subject, marks in student_marks.items():
-        print(f"{subject:<12}: {marks}")
+        status = subject_results[subject]["status"]
+        print(f"{subject:<12}: {marks:<8} {status}")
+        
+
+     # Calculate overall subject result
+    passed_subjects = sum(
+        result["status"] == "PASS"
+        for result in subject_results.values()
+    )
+
+    failed_subjects = sum(
+        result["status"] == "FAIL"
+        for result in subject_results.values()
+    )
+
+    overall_result = "PASS" if failed_subjects == 0 else "FAIL"
+
+    print("\n" + "-" * 60)
+    print("Result Summary")
+    print("-" * 60)
+
+    print(f"Subjects Passed : {passed_subjects}")
+    print(f"Subjects Failed : {failed_subjects}")
+    print(f"Result          : {overall_result}")
 
     print("\n" + "-" * 60)
     print("Performance Summary")
@@ -456,7 +501,7 @@ def display_student_report(
     print("\n" + "=" * 60)
 
 
-# STEP 11 - Search Student Function
+# STEP 16 - Search Student Function
 
 def search_student(ws, subjects):
 
@@ -503,6 +548,10 @@ def search_student(ws, subjects):
     # Calculate student's grade
     grade = calculate_grade(percentage)
 
+    # Analyze subject-wise results
+    subject_results = analyze_subject_results(student_marks)
+
+
     # Display complete report
     display_student_report(
         ws,
@@ -517,7 +566,8 @@ def search_student(ws, subjects):
         lowest_subject,
         lowest_marks,
         performance_level,
-        grade
+        grade,
+        subject_results
     )
 
     compare_with_class_average(
@@ -526,7 +576,7 @@ def search_student(ws, subjects):
         student_row,
         student_marks
     )
-# STEP 12 - Main Menu
+# STEP 17 - Main Menu
 
 while True:
 
@@ -557,6 +607,18 @@ while True:
 
     else:
         print("\nInvalid choice. Please enter 1, 2, 3 or 4.")
+
+            # Updated Output:
+            # Enter Student ID or Name: Anjali
+
+            # Student found!
+            # Excel Row: 7
+
+            # Subject Results:
+            # Python : 95 - PASS
+            # SQL : 91 - PASS
+            # Excel : 96 - PASS
+            # PowerBI : 94 - PASS
 
 
 
