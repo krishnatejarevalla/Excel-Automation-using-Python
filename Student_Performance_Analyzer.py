@@ -517,7 +517,9 @@ def export_student_report(
         highest_marks,
         lowest_subject,
         lowest_marks,
-        performance_level
+        performance_level,
+        grade,
+        subject_results
 ):
 
     student_id = ws.cell(row=student_row, column=1).value
@@ -542,20 +544,25 @@ def export_student_report(
     report_ws["A4"] = "Student Name"
     report_ws["B4"] = student_name
 
-    # Subject marks
+    # Subject marks and results
     report_ws["A6"] = "Subject"
     report_ws["B6"] = "Marks"
+    report_ws["C6"] = "Result"
+
     report_ws["A6"].font = Font(bold=True)
     report_ws["B6"].font = Font(bold=True)
+    report_ws["C6"].font = Font(bold=True)
 
     report_ws["A6"].alignment = Alignment(horizontal="center")
     report_ws["B6"].alignment = Alignment(horizontal="center")
+    report_ws["C6"].alignment = Alignment(horizontal="center")
 
     row = 7
 
     for subject, marks in student_marks.items():
         report_ws.cell(row=row, column=1).value = subject
         report_ws.cell(row=row, column=2).value = marks
+        report_ws.cell(row=row, column=3).value = subject_results[subject]["status"]
         row = row + 1
 
     # Performance summary
@@ -578,6 +585,28 @@ def export_student_report(
 
     report_ws.cell(row=row, column=1).value = "Rank"
     report_ws.cell(row=row, column=2).value = rank
+
+    row = row + 1
+
+    report_ws.cell(row=row, column=1).value = "Grade"
+    report_ws.cell(row=row, column=2).value = grade
+
+    row = row + 1
+
+    passed_subjects = sum(
+        result["status"] == "PASS"
+        for result in subject_results.values()
+    )
+
+    failed_subjects = sum(
+        result["status"] == "FAIL"
+        for result in subject_results.values()
+    )
+
+    overall_result = "PASS" if failed_subjects == 0 else "FAIL"
+
+    report_ws.cell(row=row, column=1).value = "Result"
+    report_ws.cell(row=row, column=2).value = overall_result
 
     # Performance insights
     row = row + 2
@@ -608,6 +637,7 @@ def export_student_report(
     # Adjust column widths
     report_ws.column_dimensions["A"].width = 25
     report_ws.column_dimensions["B"].width = 25
+    report_ws.column_dimensions["C"].width = 15
 
     # Add borders to used cells
     thin_border = Border(
@@ -716,7 +746,9 @@ def search_student(ws, subjects):
             highest_marks,
             lowest_subject,
             lowest_marks,
-            performance_level
+            performance_level,
+            grade,
+            subject_results
         )
 
     compare_with_class_average(
@@ -757,7 +789,6 @@ while True:
     else:
         print("\nInvalid choice. Please enter 1, 2, 3 or 4.")
 
-        # OUTPUT:
         
 
 
