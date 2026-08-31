@@ -8,6 +8,7 @@
 
 
 from openpyxl import load_workbook
+from openpyxl import Workbook
 
 # STEP 1 - Load the Excel Workbook
 
@@ -501,6 +502,112 @@ def display_student_report(
     print("\n" + "=" * 60)
 
 
+# STEP 18 - Export Student Report to Excel
+
+def export_student_report(
+        ws,
+        student_row,
+        student_marks,
+        total,
+        average,
+        percentage,
+        rank,
+        highest_subject,
+        highest_marks,
+        lowest_subject,
+        lowest_marks,
+        performance_level
+):
+
+    student_id = ws.cell(row=student_row, column=1).value
+    student_name = ws.cell(row=student_row, column=2).value
+
+    # Create a new workbook
+    report_wb = Workbook()
+    report_ws = report_wb.active
+
+    report_ws.title = "Student Report"
+
+    # Report title
+    report_ws["A1"] = "STUDENT PERFORMANCE REPORT"
+
+    # Student details
+    report_ws["A3"] = "Student ID"
+    report_ws["B3"] = student_id
+
+    report_ws["A4"] = "Student Name"
+    report_ws["B4"] = student_name
+
+    # Subject marks
+    report_ws["A6"] = "Subject"
+    report_ws["B6"] = "Marks"
+
+    row = 7
+
+    for subject, marks in student_marks.items():
+        report_ws.cell(row=row, column=1).value = subject
+        report_ws.cell(row=row, column=2).value = marks
+        row = row + 1
+
+    # Performance summary
+    row = row + 1
+
+    report_ws.cell(row=row, column=1).value = "Total"
+    report_ws.cell(row=row, column=2).value = total
+
+    row = row + 1
+
+    report_ws.cell(row=row, column=1).value = "Average"
+    report_ws.cell(row=row, column=2).value = average
+
+    row = row + 1
+
+    report_ws.cell(row=row, column=1).value = "Percentage"
+    report_ws.cell(row=row, column=2).value = percentage
+
+    row = row + 1
+
+    report_ws.cell(row=row, column=1).value = "Rank"
+    report_ws.cell(row=row, column=2).value = rank
+
+    # Performance insights
+    row = row + 2
+
+    report_ws.cell(row=row, column=1).value = "Highest Subject"
+    report_ws.cell(row=row, column=2).value = highest_subject
+
+    row = row + 1
+
+    report_ws.cell(row=row, column=1).value = "Highest Marks"
+    report_ws.cell(row=row, column=2).value = highest_marks
+
+    row = row + 1
+
+    report_ws.cell(row=row, column=1).value = "Lowest Subject"
+    report_ws.cell(row=row, column=2).value = lowest_subject
+
+    row = row + 1
+
+    report_ws.cell(row=row, column=1).value = "Lowest Marks"
+    report_ws.cell(row=row, column=2).value = lowest_marks
+
+    row = row + 1
+
+    report_ws.cell(row=row, column=1).value = "Performance"
+    report_ws.cell(row=row, column=2).value = performance_level
+
+    # Adjust column widths
+    report_ws.column_dimensions["A"].width = 25
+    report_ws.column_dimensions["B"].width = 25
+
+    # Save the report
+    filename = f"{student_name}_Report.xlsx"
+
+    report_wb.save(filename)
+
+    print(f"\nReport exported successfully!")
+    print(f"File: {filename}")
+
 # STEP 16 - Search Student Function
 
 def search_student(ws, subjects):
@@ -569,6 +676,26 @@ def search_student(ws, subjects):
         grade,
         subject_results
     )
+    export_choice = input(
+        "\nDo you want to export this report to Excel? (y/n): "
+    ).strip().lower()
+
+    if export_choice == "y":
+
+        export_student_report(
+            ws,
+            student_row,
+            student_marks,
+            total,
+            average,
+            percentage,
+            rank,
+            highest_subject,
+            highest_marks,
+            lowest_subject,
+            lowest_marks,
+            performance_level
+        )
 
     compare_with_class_average(
         ws,
@@ -608,17 +735,14 @@ while True:
     else:
         print("\nInvalid choice. Please enter 1, 2, 3 or 4.")
 
-            # Updated Output:
-            # Enter Student ID or Name: Anjali
+        # OUTPUT:
+        
+        # Do you want to export this report to Excel? (y/n): y
 
-            # Student found!
-            # Excel Row: 7
+        # Report exported successfully!
+        # File: Anjali_Report.xlsx
 
-            # Subject Results:
-            # Python : 95 - PASS
-            # SQL : 91 - PASS
-            # Excel : 96 - PASS
-            # PowerBI : 94 - PASS
+
 
 
 
