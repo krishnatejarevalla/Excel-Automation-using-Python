@@ -241,6 +241,84 @@ def display_class_statistics(ws, subjects):
 
     print("\n" + "=" * 60)
 
+# STEP 21 - Export Class Statistics to Excel
+
+def export_class_statistics(ws, subjects):
+
+    class_statistics = calculate_class_statistics(ws, subjects)
+
+    report_wb = Workbook()
+    report_ws = report_wb.active
+    report_ws.title = "Class Statistics"
+
+    # Report title
+    report_ws["A1"] = "CLASS PERFORMANCE STATISTICS"
+    report_ws["A1"].font = Font(bold=True, size=16)
+    report_ws["A1"].alignment = Alignment(horizontal="center")
+    report_ws.merge_cells("A1:D1")
+
+    # Table headers
+    report_ws["A3"] = "Subject"
+    report_ws["B3"] = "Average"
+    report_ws["C3"] = "Highest"
+    report_ws["D3"] = "Lowest"
+
+    for cell in report_ws[3]:
+        cell.font = Font(bold=True)
+        cell.alignment = Alignment(horizontal="center")
+
+    # Add subject statistics
+    row = 4
+
+    for subject, statistics in class_statistics.items():
+
+        report_ws.cell(row=row, column=1).value = subject
+        report_ws.cell(row=row, column=2).value = statistics["average"]
+        report_ws.cell(row=row, column=3).value = statistics["highest"]
+        report_ws.cell(row=row, column=4).value = statistics["lowest"]
+
+        row = row + 1
+
+    # Add class information
+    row = row + 1
+
+    report_ws.cell(row=row, column=1).value = "Total Students"
+    report_ws.cell(row=row, column=2).value = ws.max_row - 1
+
+    row = row + 1
+
+    report_ws.cell(row=row, column=1).value = "Total Subjects"
+    report_ws.cell(row=row, column=2).value = len(subjects)
+
+    # Adjust column widths
+    report_ws.column_dimensions["A"].width = 25
+    report_ws.column_dimensions["B"].width = 15
+    report_ws.column_dimensions["C"].width = 15
+    report_ws.column_dimensions["D"].width = 15
+
+    # Add borders
+    thin_border = Border(
+        left=Side(style="thin"),
+        right=Side(style="thin"),
+        top=Side(style="thin"),
+        bottom=Side(style="thin")
+    )
+
+    for row_cells in report_ws.iter_rows():
+
+        for cell in row_cells:
+
+            if cell.value is not None:
+                cell.border = thin_border
+
+    # Save the report
+    filename = "Class_Statistics.xlsx"
+
+    report_wb.save(filename)
+
+    print("\nClass statistics exported successfully!")
+    print(f"File: {filename}")
+
 # STEP 11 - Display Top Performers
 
 def display_top_performers(ws, subjects):
@@ -776,8 +854,16 @@ while True:
         search_student(ws, subjects)
 
     elif choice == "2":
+
         display_class_statistics(ws, subjects)
         display_class_overview(ws, subjects)
+
+        export_choice = input(
+            "\nDo you want to export class statistics to Excel? (y/n): "
+        ).strip().lower()
+
+        if export_choice == "y":
+            export_class_statistics(ws, subjects)
 
     elif choice == "3":
         display_top_performers(ws, subjects)
