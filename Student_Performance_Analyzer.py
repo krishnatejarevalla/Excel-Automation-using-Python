@@ -92,6 +92,22 @@ def get_student_marks(ws, student_row, subjects):
 # STEP 5 - Calculate Student Performance
 
 def calculate_performance(student_marks):
+    for subject, marks in student_marks.items():
+
+        if marks is None:
+            print(f"\nMissing marks found for {subject}.")
+            print("Please update the Excel file.")
+            return None
+
+        if not isinstance(marks, (int, float)):
+            print(f"\nInvalid marks found for {subject}.")
+            return None
+
+        if marks < 0 or marks > 100:
+            print(f"\nInvalid marks found for {subject}: {marks}")
+            print("Marks must be between 0 and 100.")
+            return None
+
     total = sum(student_marks.values())
     subject_count = len(student_marks)
     max_marks = subject_count * 100
@@ -744,10 +760,15 @@ def search_student(ws, subjects):
 
     search_value = input("\nEnter Student ID or Name: ").strip()
 
+    if not search_value:
+        print("\nPlease enter a Student ID or Name.")
+        return
+
     student_row = find_student(ws, search_value)
 
     if student_row is None:
         print("\nStudent not found.")
+        print("Please check the Student ID or Name and try again.")
         return
 
     print("\nStudent found!")
@@ -761,9 +782,12 @@ def search_student(ws, subjects):
     )
 
     # Calculate student's performance
-    total, average, percentage = calculate_performance(
-        student_marks
-    )
+    performance = calculate_performance(student_marks)
+
+    if performance is None:
+        return
+
+    total, average, percentage = performance
 
     # Calculate totals of all students
     student_totals = calculate_student_totals(
