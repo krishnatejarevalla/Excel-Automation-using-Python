@@ -352,6 +352,8 @@ def export_class_statistics(ws, subjects):
 
 # STEP 11 - Display Top Performers
 
+# STEP 11 - Display Top Performers
+
 def display_top_performers(ws, subjects):
 
     student_totals = calculate_student_totals(ws, subjects)
@@ -372,12 +374,17 @@ def display_top_performers(ws, subjects):
 
     max_marks = len(subjects) * 100
 
-    for student in student_totals[:5]:
+
+    for student in student_totals:
 
         rank = 1 + sum(
             other_student["total"] > student["total"]
             for other_student in student_totals
         )
+
+        # Display only students within the top 5 ranks
+        if rank > 5:
+            break
 
         percentage = (student["total"] / max_marks) * 100
 
