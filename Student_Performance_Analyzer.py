@@ -171,17 +171,24 @@ def calculate_student_totals(ws, subjects):
         student_name = ws.cell(row=row, column=2).value
 
         total = 0
+        valid_student = True
 
         for column in subjects.values():
 
             marks = ws.cell(row=row, column=column).value
+
+            if not isinstance(marks, (int, float)) or marks < 0 or marks > 100:
+                valid_student = False
+                break
+
             total = total + marks
 
-        student_totals.append({
-            "id": student_id,
-            "name": student_name,
-            "total": total
-        })
+        if valid_student:
+            student_totals.append({
+                "id": student_id,
+                "name": student_name,
+                "total": total
+            })
 
     return student_totals
 
@@ -217,7 +224,9 @@ def calculate_class_statistics(ws, subjects):
         for row in range(2, ws.max_row + 1):
 
             marks = ws.cell(row=row, column=column).value
-            marks_list.append(marks)
+
+            if isinstance(marks, (int, float)) and 0 <= marks <= 100:
+                marks_list.append(marks)
 
         average = sum(marks_list) / len(marks_list)
         highest = max(marks_list)
