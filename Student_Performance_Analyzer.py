@@ -70,14 +70,20 @@ for subject, column in subjects.items():
         # PowerBI -> Column 6
 
 # STEP 3 - Find Student
-def find_student(ws, search_value):
+def find_students(ws, search_value):
+    matching_students = []
+
     for row in range(2, ws.max_row + 1):
         student_id = ws.cell(row=row, column=1).value
         student_name = ws.cell(row=row, column=2).value
-        if str(student_id) == search_value or str(student_name).lower() == search_value.lower():
-            return row
 
-    return None
+        if (
+            str(student_id) == search_value
+            or str(student_name).lower() == search_value.lower()
+        ):
+            matching_students.append(row)
+
+    return matching_students
 
 
 # STEP 4 - Get Student Subject Marks
@@ -773,12 +779,38 @@ def search_student(ws, subjects):
         print("\nPlease enter a Student ID or Name.")
         return
 
-    student_row = find_student(ws, search_value)
+    matching_students = find_students(ws, search_value)
 
-    if student_row is None:
+    if not matching_students:
         print("\nStudent not found.")
         print("Please check the Student ID or Name and try again.")
         return
+
+    if len(matching_students) == 1:
+        student_row = matching_students[0]
+
+    else:
+        print("\nMultiple students found:")
+
+        for i, row in enumerate(matching_students, start=1):
+            student_id = ws.cell(row=row, column=1).value
+            student_name = ws.cell(row=row, column=2).value
+
+            print(f"{i}. {student_name} - ID: {student_id}")
+
+        selection = input("\nEnter the number to select: ").strip()
+
+        if not selection.isdigit():
+            print("\nInvalid selection.")
+            return
+
+        selection = int(selection)
+
+        if selection < 1 or selection > len(matching_students):
+            print("\nInvalid selection.")
+            return
+
+        student_row = matching_students[selection - 1]
 
     print("\nStudent found!")
     print("Excel Row:", student_row)
