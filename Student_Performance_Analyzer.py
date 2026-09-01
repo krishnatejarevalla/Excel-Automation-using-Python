@@ -2,8 +2,8 @@
 #          Student Performance Analyzer
 # ============================================================
 # Description:
-#This Project helps the teachers to get all the progress of a specific 
-#student using their Name or ID
+# This project helps teachers analyze the performance
+# and progress of students using their Name or ID.
 # ============================================================
 
 
@@ -350,7 +350,6 @@ def export_class_statistics(ws, subjects):
     print("\nClass statistics exported successfully!")
     print(f"File: {filename}")
 
-# STEP 11 - Display Top Performers
 
 # STEP 11 - Display Top Performers
 
@@ -419,6 +418,7 @@ def compare_with_class_average(ws, subjects, student_row, student_marks):
         student_mark = student_marks[subject]
 
         total_marks = 0
+        student_count = 0
 
         for row in range(2, ws.max_row + 1):
 
@@ -427,9 +427,13 @@ def compare_with_class_average(ws, subjects, student_row, student_marks):
                 column=column
             ).value
 
-            total_marks = total_marks + marks
+            if isinstance(marks, (int, float)) and 0 <= marks <= 100:
+                total_marks = total_marks + marks
+                student_count = student_count + 1
 
-        student_count = ws.max_row - 1
+        if student_count == 0:
+            print(f"\nNo valid marks found for {subject}.")
+            continue
 
         class_average = total_marks / student_count
 
@@ -441,9 +445,6 @@ def compare_with_class_average(ws, subjects, student_row, student_marks):
             f"{class_average:<12.2f}"
             f"{difference:+.2f}"
         )
-
-    print("-" * 60)
-
 # STEP 13 - Display Overall Class Performance
 
 def display_class_overview(ws, subjects):
@@ -575,7 +576,7 @@ def display_student_report(
         print(f"{subject:<12}: {marks:<8} {status}")
         
 
-     # Calculate overall subject result
+ # Calculate overall subject result
     passed_subjects = sum(
         result["status"] == "PASS"
         for result in subject_results.values()
